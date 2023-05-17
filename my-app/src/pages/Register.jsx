@@ -20,7 +20,7 @@ function Register() {
           <label>Create Password</label>
           <input className='border relative bg-gray-100 p-2' type="password" />
         </div>
-        <button className='w-full py-3 mt-8 bg-purple-700 hover:bg-purple-800 relative text-white rounded-lg'>Create Account</button>
+        <button className='w-full py-3 mt-8 bg-purple-700 hover:bg-purple-800 relative text-white rounded-lg font-semibold'>Create Account</button>
       </form>
     </div>
     </div>

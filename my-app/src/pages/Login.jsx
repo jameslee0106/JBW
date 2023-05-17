@@ -14,7 +14,7 @@ function Login() {
         <div className="bg-gray-800 flex flex-col justify-center">
           <form className="max-w-[400px] w-full mx-auto bg-purple-700 p-8 px-8 rounded-lg">
             <h2 className="text-white text-4xl font-bold text-center">
-              SIGN IN
+              Sign In
             </h2>
             <div className="text-white flex flex-col text-gray-400 py-2 font-semibold">
               <label>Email address</label>
