@@ -3,6 +3,8 @@ import { Navbar } from '../components/Navbar'
 import regImg from '../assets/login2.jpg'
 
 function Register() {
+  
+
   return (
     <div>
     <Navbar />

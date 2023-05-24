@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import background from "../assets/login3.jpg";
 import { Navbar } from "../components/Navbar";
 
 function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = () => {
+      console.log('Email: ', email);
+      console.log('password: ', email);
+  }
+
   return (
     <div>
       <Navbar />
