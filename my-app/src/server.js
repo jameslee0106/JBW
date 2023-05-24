@@ -1,5 +1,7 @@
 const express = require("express");
+const cors = require('cors');
 const app = express()
+app.use(cors());
 let mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
@@ -24,13 +26,12 @@ const UserSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 const User = mongoose.model("User", UserSchema);
-
 module.exports = User;
 
 // baseURL = "mongodb+srv://roof558:0512@jbw.1vqbwn6.mongodb.net/?retryWrites=true&w=majority"
 const main = require("./server/main.js");
 
-app.post("api/user/new", function(req, res) {
+app.post("/api/user/new", function(req, res) {
     main.newUser(req, res);
 });
 

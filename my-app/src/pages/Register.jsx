@@ -6,18 +6,28 @@ function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
     console.log('Email', email);
     console.log('password', password);
 
-    fetch('/api/user/new', {
+    const requestBody = {
+      "username": email,
+      "password": password
+    };
+
+    fetch('http://localhost:3000/api/user/new', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify(requestBody),
     })
-      .then(response => response.json())
+    .then(response => {
+      // console.log(response);
+      // console.log(requestBody);
+      return response.json();
+    })
       .then(data => {
         console.log(data);
       })
@@ -37,11 +47,11 @@ function Register() {
         <h2 className='text-4xl font-bold text-center py-8'>Sign Up</h2>
         <div className='flex flex-col mb-4'>
           <label>Enter Email Address</label>
-          <input className='border relative bg-gray-100 p-2' type="email" onChange={e => setEmail(e.target.value)}/>
+          <input className='border relative bg-gray-100 p-2' type="email" onChange={(e) => setEmail(e.target.value)}/>
         </div>
         <div className='flex flex-col mb-4'>
           <label>Create Password</label>
-          <input className='border relative bg-gray-100 p-2' type="password" onChange={e => setPassword(e.target.value)}/>
+          <input className='border relative bg-gray-100 p-2' type="password" onChange={(e) => setPassword(e.target.value)}/>
         </div>
         <button className='w-full py-3 mt-8 bg-purple-700 hover:bg-purple-800 relative text-white rounded-lg font-semibold' onClick={handleSubmit}>Create Account</button>
       </form>
