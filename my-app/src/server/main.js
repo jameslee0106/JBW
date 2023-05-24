@@ -22,10 +22,10 @@ module.exports = {
           res.json({ error: "User exists" });
         } else {
           if (Object.keys(req.body).length > 0) {
-            if (req.body.password.length < 8) {
+            if (req.body.password.length < 5) {
               res.json({
                 message: "New User error",
-                error: "Password must be at least 8 characters in length",
+                error: "Password must be at least 5 characters in length",
               });
             } else {
               bcrypt.hash(req.body.password, 10)
