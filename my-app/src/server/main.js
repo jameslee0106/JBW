@@ -56,4 +56,31 @@ module.exports = {
         res.json({ error: "Error occurred while adding new user" });
       });
   },
+
+  loginUser: function(req, res) {
+    console.log("Client request loginUser");
+    console.log("Client header: ", req.rawHeaders);
+    User.findOne({username: req.body.username}, function(err, user){
+      if (err){
+          console.log("loginUser find error: ", err);
+          res.json({error: "User login error."});
+      }else if (user == null){
+          console.log("loginUser null: ", user);
+          console.log("User value: ", user)
+          res.json({error: "Invalid login"});
+      }else{
+          console.log("User value: ", user);
+          bcrypt.compare(req.body.password, user.password, function (err, check){
+              if (check){
+                  console.log("Login Success: ", check);
+                  res.json({success: "Login Successful", user: user});
+              }else{
+                  console.log("Login Failed: ", err);
+                  res.json({error: "Invalid Login"});
+              }
+          });
+
+      }
+    });
+  },
 };
