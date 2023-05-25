@@ -6,18 +6,29 @@ function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
     console.log('Email', email);
     console.log('password', password);
+
+    const requestBody = {
+      "username": email,
+      "password": password
+    };
 
     fetch('http://localhost:3000/api/user/new', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, password }),
-    })
-      .then(response => response.json())
+      body: JSON.stringify(requestBody),
+      })
+        .then(response => {
+        // console.log(response);
+        // console.log(requestBody);
+        return response.json();
+      })
       .then(data => {
         console.log(data);
       })
