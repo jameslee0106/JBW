@@ -35,6 +35,10 @@ app.post("/api/user/new", function(req, res) {
     main.newUser(req, res);
 });
 
+app.post("/api/user/login", function(req, res) {
+    main.loginUser(req, res);
+});
+
 require("./server/routes.js")(app)
 
 app.listen(3000, function() {

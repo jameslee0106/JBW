@@ -24,7 +24,7 @@ function Register() {
       },
       body: JSON.stringify(requestBody),
       })
-        .then(response => {
+      .then(response => {
         // console.log(response);
         // console.log(requestBody);
         return response.json();
@@ -54,7 +54,9 @@ function Register() {
           <label>Create Password</label>
           <input className='border relative bg-gray-100 p-2' type="password" onChange={(e) => setPassword(e.target.value)}/>
         </div>
-        <button className='w-full py-3 mt-8 bg-purple-700 hover:bg-purple-800 relative text-white rounded-lg font-semibold' onClick={handleSubmit}>Create Account</button>
+        <button className='w-full py-3 mt-8 bg-purple-700 hover:bg-purple-800 relative text-white rounded-lg font-semibold' onClick={handleSubmit}>
+          Create Account
+        </button>
       </form>
     </div>
     </div>
