@@ -13,7 +13,7 @@ function Register() {
     console.log('password', password);
 
     const requestBody = {
-      "username": email,
+      "email": email,
       "password": password
     };
 

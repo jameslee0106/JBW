@@ -35,7 +35,7 @@ function Login() {
       .catch(error => {
         console.error('Error:', error);
       });
-  }
+  };
 
   return (
     <div>
@@ -53,14 +53,14 @@ function Login() {
             <div className="text-white flex flex-col text-gray-400 py-2 font-semibold">
               <label>Email address</label>
               <input
-                classname="rounded-lg bg-gray-700 mt-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none "
+                className="rounded-lg bg-gray-700 mt-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none "
                 type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="text-white flex flex-col text-gray-400 py-2 font-semibold">
               <label>Password</label>
               <input
-                classname="rounded-lg bg-gray-700 mt-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
+                className="rounded-lg bg-gray-700 mt-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
                 type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)}
               />
             </div>

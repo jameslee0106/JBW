@@ -5,6 +5,12 @@ let bcrypt = require("bcrypt");
 let User = mongoose.model("User");
 
 module.exports = {
+  index: function(req, res) {
+    console.log("Client request index");
+    console.log("Client header: ", req.rawHeaders);
+    res.json("Error 500 - Internal Server Error");
+  },
+
   newUser: function (req, res) {
     console.log("Client request newUser");
     console.log("Client header: ", req.rawHeaders);
@@ -57,30 +63,33 @@ module.exports = {
       });
   },
 
-  loginUser: function(req, res) {
+  loginUser: async function(req, res) {
     console.log("Client request loginUser");
     console.log("Client header: ", req.rawHeaders);
-    User.findOne({username: req.body.username}, function(err, user){
-      if (err){
-          console.log("loginUser find error: ", err);
-          res.json({error: "User login error."});
-      }else if (user == null){
-          console.log("loginUser null: ", user);
-          console.log("User value: ", user)
-          res.json({error: "Invalid login"});
-      }else{
-          console.log("User value: ", user);
-          bcrypt.compare(req.body.password, user.password, function (err, check){
-              if (check){
-                  console.log("Login Success: ", check);
-                  res.json({success: "Login Successful", user: user});
-              }else{
-                  console.log("Login Failed: ", err);
-                  res.json({error: "Invalid Login"});
-              }
-          });
-
+  
+    try {
+      const user = await User.findOne({ username: req.body.username });
+  
+      if (!user) {
+        console.log("loginUser null: ", user);
+        console.log("User value: ", user);
+        res.json({ error: "Invalid login" });
+        return;
       }
-    });
+  
+      const check = await bcrypt.compare(req.body.password, user.password);
+  
+      if (check) {
+        console.log("Login Success: ", check);
+        res.json({ success: "Login Successful", user: user });
+      } else {
+        console.log("Login Failed");
+        res.json({ error: "Invalid Login" });
+      }
+    } catch (error) {
+      console.log("loginUser error: ", error);
+      res.json({ error: "User login error" });
+    }
   },
+  
 };

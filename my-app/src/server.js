@@ -31,6 +31,10 @@ module.exports = User;
 // baseURL = "mongodb+srv://roof558:0512@jbw.1vqbwn6.mongodb.net/?retryWrites=true&w=majority"
 const main = require("./server/main.js");
 
+app.get("/api/", function(req, res) {
+    main.index(req, res);
+});
+
 app.post("/api/user/new", function(req, res) {
     main.newUser(req, res);
 });
