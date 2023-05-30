@@ -1,8 +1,21 @@
 import React, { useState } from "react";
 import background from "../assets/login3.jpg";
 import { Navbar } from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
+  let navigate = useNavigate(); 
+  const routeChange = () =>{ 
+    let path = `/`; 
+    navigate(path);
+  }
+
+  const notify = () => {
+    toast.success('Login Successful!');
+  }
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -31,6 +44,11 @@ function Login() {
       })
       .then(data => {
         console.log(data);
+
+        if(data.success) {
+          notify();
+          routeChange();
+        }
       })
       .catch(error => {
         console.error('Error:', error);
