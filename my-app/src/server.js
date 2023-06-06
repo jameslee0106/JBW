@@ -4,6 +4,7 @@ const app = express()
 app.use(cors());
 let mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jsonwebtoken = require('jsonwebtoken');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,6 +17,7 @@ mongoose.connect("mongodb+srv://roof558:0512@jbw.1vqbwn6.mongodb.net/?retryWrite
         console.error('Failed to Connect', error)
     })
 const PORT = process.env.PORT || 27017
+// const PORT = process.env.PORT || 3000
 
 // mongoose.connect("mongodb://localhost/JBW", {useNewUrlParser: true, useUnifiedTopology: true})
 //     .then(() => {
@@ -42,7 +44,6 @@ const UserSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 const User = mongoose.model("User", UserSchema);
-const jwt = require('jsonwebtoken');
 module.exports = User;
 
 // baseURL = "mongodb+srv://roof558:0512@jbw.1vqbwn6.mongodb.net/?retryWrites=true&w=majority"
@@ -52,16 +53,40 @@ app.get("/api/", function(req, res) {
     main.index(req, res);
 });
 
-app.post("/api/user/new", function(req, res) {
+app.post("/api/auth/registar", function(req, res) {
     main.newUser(req, res);
 });
 
-app.post("/api/user/login", function(req, res) {
+app.post("/api/auth/login", function(req, res) {
     main.loginUser(req, res);
 });
+
+app.get("/api/profile", function(req, res, next){
+    main.profile(req, res, next);
+});
+
+app.use(function(req, res, next) {
+    if(req.headers && req.headers.authorization && req.headers.authorization.split(' ')[0] === 'JWT') {
+        jsonwebtoken.verify(req.headers.authorization.split(' ')[1], 'RESTFULAPIs', function(err, decode) {
+            if (error) req.User = undefined;
+            req.User = decode;
+            next();
+        })
+    }
+    else {
+        req.User = undefined;
+        next();
+    }
+});
+
+app.use(function(req, res) {
+    res.status(404).send({ url: req.originalUrl + ' not found' })
+}) ;
 
 require("./server/routes.js")(app)
 
 app.listen(PORT, function() {
     console.log("Server running on port", PORT);
 });
+
+// module.exports = app;

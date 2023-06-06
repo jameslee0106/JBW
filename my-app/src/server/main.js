@@ -1,5 +1,6 @@
 let mongoose = require("mongoose");
 let bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 
 // Models
 let User = mongoose.model("User");
@@ -81,8 +82,10 @@ module.exports = {
   
       if (check) {
         console.log("Login Success: ", check);
-        res.json({ success: "Login Successful", user: user });
-        const token = jwt.sign({ userId: user._id }, 'secret-key');
+        // res.json({ success: "Login Successful", user: user });
+        res.json({ success: "Login Successful", user: user, token: jwt.sign({ email: user.email }, 'RESTFULAPIs') });
+        // const token = jwt.sign({ userId: user._id }, 'secret-key');
+        // return res.json({ token: jwt.sign({ email: user.email }, 'RESTFULAPIs') });
       } else {
         console.log("Login Failed");
         res.json({ error: "Invalid Login" });
@@ -93,4 +96,22 @@ module.exports = {
     }
   },
   
+  loginRequired: function(req, res, next) {
+    if (req.user) {
+      next();
+    }
+    else {
+      res.json({ error: "Unauthorized User" });
+    }
+  },
+
+  profile: function(req, res, next) {
+    if (req.user) {
+      res.send(req.user);
+      next();
+    }
+    else {
+      res.json({ error: "Invalid Token" });
+    }
+  },
 };
