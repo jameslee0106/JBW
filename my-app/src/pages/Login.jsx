@@ -1,8 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import background from "../assets/login3.jpg";
 import { Navbar } from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// import axios from 'axios';
 
 function Login() {
+  let navigate = useNavigate(); 
+  const routeChange = () =>{ 
+    let path = `/`; 
+    navigate(path);
+  }
+
+  const notify = () => {
+    toast.success('Login Successful!');
+  }
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    console.log('Email: ', email);
+    console.log('password: ', password);
+
+    const requestBody = {
+      "username": email,
+      "password": password
+    };
+
+    fetch('http://localhost:3000/api/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+      })
+      .then(response => {
+        // console.log(response);
+        // console.log(requestBody);
+        return response.json();
+      })
+      .then(data => {
+        console.log(data);
+
+        if(data.success) {
+          notify();
+          routeChange();
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
+
   return (
     <div>
       <Navbar />
@@ -19,15 +72,15 @@ function Login() {
             <div className="text-white flex flex-col text-gray-400 py-2 font-semibold">
               <label>Email address</label>
               <input
-                classname="rounded-lg bg-gray-700 mt-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none "
-                type="email" placeholder="Email"
+                className="rounded-lg bg-gray-700 mt-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none "
+                type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="text-white flex flex-col text-gray-400 py-2 font-semibold">
               <label>Password</label>
               <input
-                classname="rounded-lg bg-gray-700 mt-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
-                type="password" placeholder="Password"
+                className="rounded-lg bg-gray-700 mt-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
+                type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <div className="text-white flex justify-between text-gray-400 py-2">
@@ -36,7 +89,7 @@ function Login() {
               </p>
               <p>Forgot Password</p>
             </div>
-            <button className="text-white w-full my-5 py-2 bg-blue-700 hover:bg-blue-800 font-semibold rounded-lg">
+            <button className="text-white w-full my-5 py-2 bg-blue-700 hover:bg-blue-800 font-semibold rounded-lg" onClick={handleSubmit}>
               Sign In
             </button>
           </form>

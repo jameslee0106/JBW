@@ -7,6 +7,8 @@ import Search from './pages/Search';
 import User from './pages/User';
 import About from './pages/About';
 import { BrowserRouter, Routes, Route, Link} from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -22,7 +24,7 @@ function App() {
           <Route path ="/about" element ={<About />} />
         </Routes>
       </div>
-      
+      <ToastContainer />
     </>
   );
 }
