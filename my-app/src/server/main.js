@@ -82,6 +82,7 @@ module.exports = {
       if (check) {
         console.log("Login Success: ", check);
         res.json({ success: "Login Successful", user: user });
+        const token = jwt.sign({ userId: user._id }, 'secret-key');
       } else {
         console.log("Login Failed");
         res.json({ error: "Invalid Login" });
