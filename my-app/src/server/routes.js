@@ -6,7 +6,7 @@ module.exports = function(app){
         main.index(req, res);
     });
     
-    app.post("/api/auth/registar", function(req, res) {
+    app.post("/api/auth/register", function(req, res) {
         main.newUser(req, res);
     });
     
@@ -14,7 +14,8 @@ module.exports = function(app){
         main.loginUser(req, res);
     });
 
-    app.get("/api/profile", function(req, res, next){
-        main.profile(req, res, next);
-    });
+    // app.get("/api/profile", function(req, res, next){
+    //     main.profile(req, res, next);
+    // });
+    app.get("/api/profile", main.loginRequired, main.profile);
 };

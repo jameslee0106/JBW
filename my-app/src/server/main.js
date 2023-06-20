@@ -12,11 +12,11 @@ module.exports = {
     res.json("Error 500 - Internal Server Error");
   },
 
-  newUser: function (req, res) {
+  newUser: async function (req, res) {
     console.log("Client request newUser");
     console.log("Client header: ", req.rawHeaders);
 
-    User.findOne({ username: req.body.username })
+    await User.findOne({ username: req.body.username })
       .then((user) => {
         if (user) {
           console.log(
@@ -83,8 +83,18 @@ module.exports = {
       if (check) {
         console.log("Login Success: ", check);
         // res.json({ success: "Login Successful", user: user });
-        res.json({ success: "Login Successful", user: user, token: jwt.sign({ email: user.email }, 'RESTFULAPIs') });
-        // const token = jwt.sign({ userId: user._id }, 'secret-key');
+        // res.json({ success: "Login Successful", user: user, token: jwt.sign({ username: user.email, _id: user._id }, 'RESTFULAPIs') });
+
+        const token = jwt.sign(
+          { user: {username: user.email, _id: user._id}}, 
+          process.env.ACCESS_TOKEN_SECRET,
+          { expiresIn: "1m" }, 
+          // 'RESTFULAPIs'
+        );
+        res.set('Authorization', `Bearer ${token}`);
+        res.json({ success: "Login Successful", user: user, token: token });
+
+        // return res.json({ token: jwt.sign({ username: user.email, _id: user._id }, 'RESTFULAPIs') });
         // return res.json({ token: jwt.sign({ email: user.email }, 'RESTFULAPIs') });
       } else {
         console.log("Login Failed");
@@ -96,22 +106,27 @@ module.exports = {
     }
   },
   
-  loginRequired: function(req, res, next) {
+  loginRequired: async function(req, res, next) {
     if (req.user) {
+      res.json(req.user);
       next();
     }
     else {
       res.json({ error: "Unauthorized User" });
+      // res.json({ error: req.body._id });
     }
   },
 
   profile: function(req, res, next) {
+    // const user = User.findOne({ username: req.body.username });
     if (req.user) {
-      res.send(req.user);
+      res.send(req.body._id);
+      res.json({ message: user.username });
       next();
     }
     else {
       res.json({ error: "Invalid Token" });
+      // res.json({ error: req.body._id });
     }
   },
 };
