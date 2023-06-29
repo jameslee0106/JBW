@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // import axios from 'axios';
 
 function Login() {
+  // console.log("Checking ",process.env.REACT_APP_ACCESS_TOKEN_SECRET);
   let navigate = useNavigate(); 
   const routeChange = () =>{ 
     let path = `/`; 
@@ -31,7 +32,7 @@ function Login() {
       "password": password
     };
 
-    fetch('http://localhost:3000/api/auth/login', {
+    fetch('http://localhost:27017/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

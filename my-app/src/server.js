@@ -3,8 +3,9 @@ const cors = require('cors');
 const app = express()
 app.use(cors());
 let mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 const jsonwebtoken = require('jsonwebtoken');
+require('dotenv').config();
 // const asyncHandler = require("express-asy")
 
 app.use(express.json());
@@ -63,25 +64,6 @@ module.exports = User;
 //         next();
 //     }
 // });
-  
-app.use(async function(req, res, next) {
-    let token;
-    let authHeader = req.headers.authorization || req.headers.Authorizaton;
-    if (authHeader && authHeader.startsWith("Bearer")) {
-        token = authHeader.split(" ")[1];
-        jsonwebtoken.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-            if(err) {
-                res.status(401);
-                throw new Error("User is not authorized");
-            }
-            console.log(decoded);
-            next()
-        })
-    }
-    else {
-        next()
-    }
-}); 
 
 const routes = require("./server/routes.js")
 routes(app);
@@ -95,4 +77,3 @@ app.listen(PORT, function() {
 });
 
 module.exports = app;
-// module.exports = validateToken;
