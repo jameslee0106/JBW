@@ -1,7 +1,7 @@
 let mongoose = require("mongoose");
 let bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-require('dotenv-flow').config();
+const dotenv = require('dotenv').config();
 
 // const asyncHandler = require("express-async-handler");
 
@@ -144,7 +144,7 @@ module.exports = {
     console.log("Start");
     if (authHeader && authHeader.startsWith("Bearer")) {
         token = authHeader.split(" ")[1];
-        console.log(token);
+        // console.log(token);
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
             if(err) {
                 res.status(401);
