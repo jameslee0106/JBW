@@ -3,8 +3,6 @@ let bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
 
-// const asyncHandler = require("express-async-handler");
-
 // Models
 let User = mongoose.model("User");
 
@@ -85,21 +83,17 @@ module.exports = {
   
       if (check) {
         console.log("Login Success: ", check);
-        // res.json({ success: "Login Successful", user: user });
-        // res.json({ success: "Login Successful", user: user, token: jwt.sign({ username: user.email, _id: user._id }, 'RESTFULAPIs') });
+        // console.log("User email", user._id);
         const token = jwt.sign(
-          { user: {username: user.email, _id: user._id}}, 
-          process.env.REACT_APP_ACCESS_TOKEN_SECRET,
+          { user: { _id: user._id, username: user.username }}, 
+          process.env.TOKEN_SECRET,
           { expiresIn: "1m" }, 
-          // 'RESTFULAPIs'
         );
+                
         res.set('Authorization', `Bearer ${token}`);
-        console.log("Response headers: ", res.getHeaders("authorization"));
-        // console.log("Response headers: ", res.headers["authorization"]);
+        // console.log("Response headers: ", res.getHeaders("authorization"));
         res.json({ success: "Login Successful", user: user, token: token });
 
-        // return res.json({ token: jwt.sign({ username: user.email, _id: user._id }, 'RESTFULAPIs') });
-        // return res.json({ token: jwt.sign({ email: user.email }, 'RESTFULAPIs') });
       } else {
         console.log("Login Failed");
         res.json({ error: "Invalid Login" });
@@ -110,23 +104,12 @@ module.exports = {
     }
   },
   
-  loginRequired: async function(req, res, next) {
-    if (req.user) {
-      res.json(req.user);
-      next();
-    }
-    else {
-      // res.json({ error: "Unauthorized User" });
-      res.json(req.user);
-      // res.json({ error: req.body._id });
-    }
-  },
-
   profile: function(req, res, next) {
-    // const user = User.findOne({ username: req.body.username });
+    console.log("Profile user", req.user);
+
     if (req.user) {
-      res.send(req.body._id);
-      res.json({ message: user.username });
+      res.json({ message: req.user });
+      console.log("profile sucess");
       next();
     }
     else {
@@ -134,37 +117,4 @@ module.exports = {
       // res.json({ error: req.body._id });
     }
   },
-
-  validateToken: (async function(req, res, next) {
-    let token;
-    let authHeader = req.headers.authorization || req.headers.Authorizaton;
-    // console.log(authHeader);
-    console.log("Reqest headers", req.get("Authorization"));
-    console.log("Reqest headers", req.headers);
-    console.log("Start");
-    if (authHeader && authHeader.startsWith("Bearer")) {
-        token = authHeader.split(" ")[1];
-        // console.log(token);
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-            if(err) {
-                res.status(401);
-                throw new Error("User is not authorized");
-            }
-            console.log(decoded);
-            req.user = decoded.user;
-            next();
-        });
-        if(!token) {
-            res.status(401);
-            throw new Error("User not authorized or token is missing");
-        }
-        else {
-          console.log("Success?");
-        }
-    }
-    else {
-        next();
-    }
-    console.log("End");
-  })
 };
