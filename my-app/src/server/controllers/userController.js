@@ -91,7 +91,7 @@ module.exports = {
         );
                 
         res.set('Authorization', `Bearer ${token}`);
-        // console.log("Response headers: ", res.getHeaders("authorization"));
+        console.log("Response headers: ", res.getHeaders("authorization"));
         res.json({ success: "Login Successful", user: user, token: token });
 
       } else {
@@ -104,17 +104,14 @@ module.exports = {
     }
   },
   
-  profile: function(req, res, next) {
-    console.log("Profile user", req.user);
+  profile: function(req, res) {
+    // console.log("Profile user", req.user);
 
     if (req.user) {
       res.json({ message: req.user });
-      console.log("profile sucess");
-      next();
     }
     else {
       res.json({ error: "Invalid Token" });
-      // res.json({ error: req.body._id });
     }
   },
 };

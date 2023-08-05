@@ -18,7 +18,7 @@ app.use(routes);
 
 app.use(function(req, res) {
     res.status(404).send({ url: req.originalUrl + ' not found' });
-}) ;
+});
 
 const PORT = process.env.PORT || 27018;
 app.listen(PORT, function() {

@@ -18,7 +18,7 @@ export const Navbar = () => {
         <CustomLink to="/about">
           <li className="p-4 whitespace-nowrap font-semibold link link-underline link-underline-black text-white">About Us</li>
         </CustomLink>
-        <CustomLink to="/user">
+        <CustomLink to="/profile">
           <li className="p-4 whitespace-nowrap font-semibold link link-underline link-underline-black text-white">My Profile</li>
         </CustomLink>
         <CustomLink to="/signup">

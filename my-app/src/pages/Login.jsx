@@ -4,10 +4,8 @@ import { Navbar } from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import axios from 'axios';
 
 function Login() {
-  // console.log("Checking ",process.env.REACT_APP_ACCESS_TOKEN_SECRET);
   let navigate = useNavigate(); 
   const routeChange = () =>{ 
     let path = `/`; 
@@ -45,9 +43,10 @@ function Login() {
         return response.json();
       })
       .then(data => {
-        console.log(data);
+        console.log("Token from login: ", data.token);
 
         if(data.success) {
+          localStorage.setItem("token", data.token);
           notify();
           routeChange();
         }
