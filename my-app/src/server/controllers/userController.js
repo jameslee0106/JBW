@@ -1,5 +1,7 @@
 let mongoose = require("mongoose");
 let bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv').config();
 
 // Models
 let User = mongoose.model("User");
@@ -7,15 +9,15 @@ let User = mongoose.model("User");
 module.exports = {
   index: function(req, res) {
     console.log("Client request index");
-    console.log("Client header: ", req.rawHeaders);
+    console.log("Client header: ", req.headers);
     res.json("Error 500 - Internal Server Error");
   },
 
-  newUser: function (req, res) {
+  newUser: async function (req, res) {
     console.log("Client request newUser");
-    console.log("Client header: ", req.rawHeaders);
+    console.log("Client header: ", req.headers);
 
-    User.findOne({ username: req.body.username })
+    await User.findOne({ username: req.body.username })
       .then((user) => {
         if (user) {
           console.log(
@@ -65,7 +67,7 @@ module.exports = {
 
   loginUser: async function(req, res) {
     console.log("Client request loginUser");
-    console.log("Client header: ", req.rawHeaders);
+    console.log("Client header: ", req.headers);
   
     try {
       const user = await User.findOne({ username: req.body.username });
@@ -81,8 +83,17 @@ module.exports = {
   
       if (check) {
         console.log("Login Success: ", check);
-        res.json({ success: "Login Successful", user: user });
-        const token = jwt.sign({ userId: user._id }, 'secret-key');
+        // console.log("User email", user._id);
+        const token = jwt.sign(
+          { user: { _id: user._id, username: user.username }}, 
+          process.env.TOKEN_SECRET,
+          { expiresIn: "1m" }, 
+        );
+                
+        res.set('Authorization', `Bearer ${token}`);
+        console.log("Response headers: ", res.getHeaders("authorization"));
+        res.json({ success: "Login Successful", user: user, token: token });
+
       } else {
         console.log("Login Failed");
         res.json({ error: "Invalid Login" });
@@ -93,4 +104,14 @@ module.exports = {
     }
   },
   
+  profile: function(req, res) {
+    // console.log("Profile user", req.user);
+
+    if (req.user) {
+      res.json({ message: req.user });
+    }
+    else {
+      res.json({ error: "Invalid Token" });
+    }
+  },
 };

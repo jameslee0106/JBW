@@ -4,7 +4,7 @@ import Jobs from './pages/Jobs';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Search from './pages/Search';
-import User from './pages/User';
+import Profile from './pages/Profile';
 import About from './pages/About';
 import { BrowserRouter, Routes, Route, Link} from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -20,7 +20,7 @@ function App() {
           <Route path ="/login" element ={<Login />} />
           <Route path ="/signup" element ={<Register />} />
           <Route path ="/search" element ={<Search />} />
-          <Route path ="/user" element ={<User />} />
+          <Route path ="/profile" element ={<Profile />} />
           <Route path ="/about" element ={<About />} />
         </Routes>
       </div>

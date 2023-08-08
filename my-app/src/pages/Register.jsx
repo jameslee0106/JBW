@@ -13,11 +13,11 @@ function Register() {
     console.log('password', password);
 
     const requestBody = {
-      "email": email,
+      "username": email,
       "password": password
     };
 
-    fetch('http://localhost:3000/api/user/new', {
+    fetch('http://localhost:27017/api/auth/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -25,8 +25,6 @@ function Register() {
       body: JSON.stringify(requestBody),
       })
       .then(response => {
-        // console.log(response);
-        // console.log(requestBody);
         return response.json();
       })
       .then(data => {

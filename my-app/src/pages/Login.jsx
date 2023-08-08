@@ -4,7 +4,6 @@ import { Navbar } from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import axios from 'axios';
 
 function Login() {
   let navigate = useNavigate(); 
@@ -31,7 +30,7 @@ function Login() {
       "password": password
     };
 
-    fetch('http://localhost:3000/api/user/login', {
+    fetch('http://localhost:27017/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -44,9 +43,10 @@ function Login() {
         return response.json();
       })
       .then(data => {
-        console.log(data);
+        console.log("Token from login: ", data.token);
 
         if(data.success) {
+          localStorage.setItem("token", data.token);
           notify();
           routeChange();
         }
