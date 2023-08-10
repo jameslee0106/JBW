@@ -1,7 +1,34 @@
 import React from 'react'
 import { Navbar } from '../components/Navbar'
+import { useState, useEffect } from "react";
 
 function Search() {
+
+  const [database, setDatabase] = useState([]);
+  
+  const fetchData = () => {
+    fetch(`https://api.adzuna.com/v1/api/jobs/us/search/1?app_id=f8df06cf&app_key=790c22f1845e68f55ef259db12a0a173`, {
+        headers: {
+          'Accept': 'application/json',
+        }
+      })
+      .then(response => {
+        return response.json() })
+      .then(data => {
+        console.log(data.results);
+        setDatabase(data.results);
+      })
+      .catch(error => {
+        console.error('Error database:', error);
+      });
+  };
+
+  const fetchDatabase = useEffect(() => {
+    fetchData();
+  }, []);
+
+  console.log(database);
+
   return (
     <div>
     <Navbar />
@@ -17,7 +44,7 @@ function Search() {
           <label>Location</label>
           <input className='border relative bg-gray-100 p-2' type="text" placeholder="City, State, or Zipcode"/>
         </div>
-        <button className='w-full py-3 mt-8 bg-purple-700 hover:bg-purple-800 relative text-white rounded-lg font-semibold'>
+        <button onClick={fetchDatabase} className='w-full py-3 mt-8 bg-purple-700 hover:bg-purple-800 relative text-white rounded-lg font-semibold'>
           Search
         </button>
       </form>
