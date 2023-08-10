@@ -10,12 +10,12 @@ function Search() {
       <form className='max-w-[400px] w-full mx-auto bg-white p-8 rounded-lg'>
         <h2 className='text-4xl font-bold text-center py-8'>Search</h2>
         <div className='flex flex-col mb-4'>
-          <label>Enter desired occupation</label>
-          <input className='border relative bg-gray-100 p-2' type="email"/>
+          <label>Occupation</label>
+          <input className='border relative bg-gray-100 p-2' type="text" placeholder="Job Title, Keywords, or Company"/>
         </div>
         <div className='flex flex-col mb-4'>
-          <label>Enter Zip Code</label>
-          <input className='border relative bg-gray-100 p-2' type="password"/>
+          <label>Location</label>
+          <input className='border relative bg-gray-100 p-2' type="text" placeholder="City, State, or Zipcode"/>
         </div>
         <button className='w-full py-3 mt-8 bg-purple-700 hover:bg-purple-800 relative text-white rounded-lg font-semibold'>
           Search
