@@ -21,6 +21,9 @@ export const Navbar = () => {
         <CustomLink to="/profile">
           <li className="p-4 whitespace-nowrap font-semibold link link-underline link-underline-black text-white">My Profile</li>
         </CustomLink>
+        <CustomLink to="/search">
+          <li className="p-4 whitespace-nowrap font-semibold link link-underline link-underline-black text-white">Search</li>
+        </CustomLink>
         <CustomLink to="/signup">
           <button className="bg-[#8F00FF] w-[125px] px-4 rounded text-[#F5F6FB] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-[#8F00FF] duration-300 ml-4">
             <li className="p-4 whitespace-nowrap font-semibold">Sign up</li>{" "}
