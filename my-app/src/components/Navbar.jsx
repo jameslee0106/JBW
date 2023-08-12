@@ -10,28 +10,28 @@ export const Navbar = () => {
       </h1>
       <ul className="hidden md:flex">
         <CustomLink to="/">
-          <li className="p-4 font-semibold link link-underline link-underline-black text-white">Home</li>
+          <p className="p-4 font-semibold link link-underline link-underline-black text-white">Home</p>
         </CustomLink>
         <CustomLink to="/careers">
-          <li className="p-4 font-semibold link link-underline link-underline-black text-white">Jobs</li>{" "}
+          <p className="p-4 font-semibold link link-underline link-underline-black text-white">Jobs</p>
         </CustomLink>
         <CustomLink to="/about">
-          <li className="p-4 whitespace-nowrap font-semibold link link-underline link-underline-black text-white">About Us</li>
+          <p className="p-4 whitespace-nowrap font-semibold link link-underline link-underline-black text-white">About Us</p>
         </CustomLink>
         <CustomLink to="/profile">
-          <li className="p-4 whitespace-nowrap font-semibold link link-underline link-underline-black text-white">My Profile</li>
+          <p className="p-4 whitespace-nowrap font-semibold link link-underline link-underline-black text-white">My Profile</p>
         </CustomLink>
         <CustomLink to="/search">
-          <li className="p-4 whitespace-nowrap font-semibold link link-underline link-underline-black text-white">Search</li>
+          <p className="p-4 whitespace-nowrap font-semibold link link-underline link-underline-black text-white">Search</p>
         </CustomLink>
         <CustomLink to="/signup">
           <button className="bg-[#8F00FF] w-[125px] px-4 rounded text-[#F5F6FB] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-[#8F00FF] duration-300 ml-4">
-            <li className="p-4 whitespace-nowrap font-semibold">Sign up</li>{" "}
+          <p className="p-4 whitespace-nowrap font-semibold">Sign up</p>
           </button>
         </CustomLink>
         <CustomLink to="/login">
           <button className="mx-4 bg-blue-700 w-[125px] px-4 rounded text-[#F5F6FB] transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:bg-blue-700 duration-300">
-            <li className="p-4 whitespace-nowrap font-semibold">Log in</li>
+          <p className="p-4 whitespace-nowrap font-semibold">Log in</p>
           </button>
         </CustomLink>
       </ul>
