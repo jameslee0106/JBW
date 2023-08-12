@@ -18,8 +18,10 @@ const Search = () => {
           'Accept': 'application/json',
         }
       })
+      .then(response => {
+        return response.json();
+      })
       .then(data => {
-        console.log("hello");
         console.log(data);
         // setDatabase(data);
       })
