@@ -1,0 +1,18 @@
+
+
+What is abstraction?
+-- Object Oriented Programming (OOP) => Polymorphism, Inheritance, Interfaces
+
+What is the goal of abstraction:
+- organize objects (clearly identify what each object has/does)
+- Loosely couple complex code / object
+
+
+Tightly Coupled Objects vs Loosely Coupled Objects:
+- More flexibility for loosely coupled objects.
+- When there are more loose parts, it's **easier to test** each individual part.
+- Less resources if the problem is small
+
+Goal:
+- Build a mental model: Abstract, Componentizing, Refactoring
+- 
