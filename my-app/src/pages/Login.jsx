@@ -53,6 +53,7 @@ function Login() {
       })
       .catch(error => {
         console.error('Error:', error);
+        alert("Login Failed");
       });
   };
 
