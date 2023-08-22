@@ -1,4 +1,8 @@
+
+// A normal javascript class
 class AdzunaService {
+
+  // Cannot implement useState because it is not a react component
  
     async fetchJobs() {
         try {
