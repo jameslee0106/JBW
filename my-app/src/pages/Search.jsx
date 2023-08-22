@@ -8,16 +8,17 @@ import { adzunaService } from "../service/adzunaService";
 
 const Search = () => {
   const [database, setDatabase] = useState([]);
-  const [loading, setLoading] = useState(false);
+
+  const [loading, setLoading] = useState(false); // This is a state
 
   const handleSearchClick = async () => {
     setLoading(true);
     try {
       await adzunaService.fetchJobs(); 
-      setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+    setLoading(false);
   };
   
 
