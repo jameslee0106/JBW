@@ -12,7 +12,8 @@ class AdzunaService {
             }
           })
           const result = await response.json()
-          console.log(result)
+          console.log("I GOT HIT")
+          return result;
         } catch (err) {
           console.log(err)
           alert('Unable to load search')

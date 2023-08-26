@@ -1,27 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { Navbar } from '../components/Navbar'
 import { adzunaService } from "../service/adzunaService";
+import { Link, useNavigate } from "react-router-dom";
+
 // import { loading } from "../service/Loading"
 
 // useEffect to call hello
 // use a button to call hello
 
 const Search = () => {
-  const [database, setDatabase] = useState([]);
-
-  const [loading, setLoading] = useState(false); // This is a state
+  // const [database, setDatabase] = useState(["Hello"]);
+  const [loading, setLoading] = useState(false); 
+  
+  // This is a state
+  const navigate = useNavigate();
 
   const handleSearchClick = async () => {
     setLoading(true);
     try {
-      await adzunaService.fetchJobs(); 
+      let data = await adzunaService.fetchJobs(); 
+      // setDatabase(data); // Re-render once
+      navigate("/jobs", {state: data});
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-    setLoading(false);
+    setLoading(false); // Re-render twice
   };
-  
 
+  // const transferData = () => {
+  //   handleSearchClick();
+  //   // console.log(database);
+  //   navigate("/jobs", {state: database});
+  // }
+
+  // console.log(database)
+  // put it here
+  // if (database.length != 0) {
+  // console.log(database.results);
+  // }
+  
   return (
     <div>
     <Navbar />
@@ -37,6 +54,7 @@ const Search = () => {
           <label>Location</label>
           <input className='border relative bg-gray-100 p-2' type="text" placeholder="City, State, or Zipcode"/>
         </div>
+        {/* <Link to={{pathname:"/jobs", state:{fetchedData: database}}}> */}
         <button onClick={handleSearchClick} className='w-full py-3 mt-8 bg-purple-700 hover:bg-purple-800 relative text-white rounded-lg font-semibold'>
           {/* Search */}
           {loading ? (
@@ -49,6 +67,7 @@ const Search = () => {
             </div>
             ): ("Fetch Data") }
         </button>
+        {/* </Link> */}
       </div>
     </div>
     </div>

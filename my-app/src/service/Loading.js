@@ -1,6 +1,6 @@
 import React, {useState, useEffect } from 'react'
 
-export const loading = () => {
+export const Loading = () => {
 
   const [loading, setLoading] = useState(false);
 
@@ -54,4 +54,4 @@ export const loading = () => {
     );
 };
 
-export default loading;
+export default Loading;
