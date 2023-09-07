@@ -1,53 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Navbar } from '../components/Navbar'
 import { adzunaService } from "../service/adzunaService";
+import { occupationCategory } from "../service/occupationCategory";
 import { Link, useNavigate } from "react-router-dom";
-
-// import { loading } from "../service/Loading"
-
-// useEffect to call hello
-// use a button to call hello
+import locationSearch from "../model/location.json"
 
 const Search = () => {
-  const locationOptions = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
-  const occupationOptions = [
-    "accounting-finance-jobs",
-    "it-jobs",
-    "sales-jobs",
-    "customer-services-jobs",
-    "engineering-jobs",
-    "hr-jobs",
-    "healthcare-nursing-jobs",
-    "hospitality-catering-jobs",
-    "pr-advertising-marketing-jobs",
-    "logistics-warehouse-jobs",
-    "teaching-jobs",
-    "trade-construction-jobs",
-    "admin-jobs",
-    "legal-jobs",
-    "creative-design-jobs",
-    "graduate-jobs",
-    "retail-jobs",
-    "consultancy-jobs",
-    "manufacturing-jobs",
-    "scientific-qa-jobs",
-    "social-work-jobs",
-    "travel-jobs",
-    "energy-oil-gas-jobs",
-    "property-jobs",
-    "charity-voluntary-jobs",
-    "domestic-help-cleaning-jobs",
-    "maintenance-jobs",
-    "part-time-jobs",
-    "other-general-jobs",
-    "unknown"
-  ];
+  const locationOptions = locationSearch.state;
+  const [state, setState] = useState([]);
   const [loading, setLoading] = useState(false); 
   const [occupation, setOccupation] = useState("");
   const [location, setLocation] = useState("");
+
+  useEffect(() => {
+    const occupation = async() =>{ 
+      try {
+        const occupation = await occupationCategory.fetchJobs();
+        console.log(occupation.results);
+        setState(occupation.results);
+      }
+      catch(err){
+        console.log(err);
+      }
+    }
+    occupation();
+  }, []);
   
-  
-  // This is a state
   const navigate = useNavigate();
 
   const handleSearchClick = async () => {
@@ -61,21 +39,6 @@ const Search = () => {
     setLoading(false); // Re-render twice
   };
 
-  // const transferData = () => {
-  //   handleSearchClick();
-  //   // console.log(database);
-  //   navigate("/jobs", {state: database});
-  // }
-
-  // console.log(database)
-  // put it here
-  // if (database.length != 0) {
-  // console.log(database.results);
-  // }
-
-  // console.log(occupation);
-  // console.log(location);
-
   return (
     <div>
     <Navbar />
@@ -87,13 +50,13 @@ const Search = () => {
           <label>Occupation</label>
           <select
             className='border relative bg-gray-100 p-2'
-            onChange={(e) => setOccupation(e.target.value)}
+            onChange={(e) => setOccupation(e.target.value)} // setOccupation(e.target.value)
             value={occupation}
           >
           <option value="" disabled>Select the Occupation</option>
-          {occupationOptions.map((option, idx) => (
-            <option key={idx} value={option}>
-              {option}
+          {state.map((option, idx) => (
+            <option key={idx} value={option.tag}>
+              {option.label} 
             </option>
           ))}
           </select>
