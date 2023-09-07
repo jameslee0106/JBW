@@ -16,7 +16,7 @@ const Search = () => {
     const occupation = async() =>{ 
       try {
         const occupation = await occupationCategory.fetchJobs();
-        console.log(occupation.results);
+        // console.log(occupation.results);
         setState(occupation.results);
       }
       catch(err){
