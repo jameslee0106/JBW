@@ -1,26 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { Navbar } from '../components/Navbar'
 import { adzunaService } from "../service/adzunaService";
-// import { loading } from "../service/Loading"
-
-// useEffect to call hello
-// use a button to call hello
+import { occupationCategory } from "../service/occupationCategory";
+import { Link, useNavigate } from "react-router-dom";
+import locationSearch from "../model/location.json"
 
 const Search = () => {
-  const [database, setDatabase] = useState([]);
+  const locationOptions = locationSearch.state;
+  const [state, setState] = useState([]);
+  const [loading, setLoading] = useState(false); 
+  const [occupation, setOccupation] = useState("");
+  const [location, setLocation] = useState("");
 
-  const [loading, setLoading] = useState(false); // This is a state
+  useEffect(() => {
+    const occupation = async() =>{ 
+      try {
+        const occupation = await occupationCategory.fetchJobs();
+        console.log(occupation.results);
+        setState(occupation.results);
+      }
+      catch(err){
+        console.log(err);
+      }
+    }
+    occupation();
+  }, []);
+  
+  const navigate = useNavigate();
 
   const handleSearchClick = async () => {
     setLoading(true);
     try {
-      await adzunaService.fetchJobs(); 
+      let data = await adzunaService.fetchJobs(occupation, location);
+      navigate("/jobs", {state: data});
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-    setLoading(false);
+    setLoading(false); // Re-render twice
   };
-  
 
   return (
     <div>
@@ -31,12 +48,34 @@ const Search = () => {
         <h2 className='text-4xl font-bold text-center py-8'>Search</h2>
         <div className='flex flex-col mb-4'>
           <label>Occupation</label>
-          <input className='border relative bg-gray-100 p-2' type="text" placeholder="Job Title, Keywords, or Company"/>
+          <select
+            className='border relative bg-gray-100 p-2'
+            onChange={(e) => setOccupation(e.target.value)} // setOccupation(e.target.value)
+            value={occupation}
+          >
+          <option value="" disabled>Select the Occupation</option>
+          {state.map((option, idx) => (
+            <option key={idx} value={option.tag}>
+              {option.label} 
+            </option>
+          ))}
+          </select>
+
         </div>
         <div className='flex flex-col mb-4'>
           <label>Location</label>
-          <input className='border relative bg-gray-100 p-2' type="text" placeholder="City, State, or Zipcode"/>
+          <select 
+            className='border relative bg-gray-100 p-2'
+            onChange={(e) => setLocation(e.target.value)}
+            value={location}
+          >
+          <option value="" disabled>Select the Location</option>
+          {locationOptions.map((option, idx) => (
+            <option key={idx}>{option}</option>
+          ))}
+          </select>
         </div>
+        {/* <Link to={{pathname:"/jobs", state:{fetchedData: database}}}> */}
         <button onClick={handleSearchClick} className='w-full py-3 mt-8 bg-purple-700 hover:bg-purple-800 relative text-white rounded-lg font-semibold'>
           {/* Search */}
           {loading ? (
@@ -49,6 +88,7 @@ const Search = () => {
             </div>
             ): ("Fetch Data") }
         </button>
+        {/* </Link> */}
       </div>
     </div>
     </div>
