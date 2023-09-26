@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
 import React, {useState} from 'react'
 import bookmark from "../assets/bookmark-plus.svg";
+import { bookmarkService } from "../service/bookmarkService";
 
 const Jobs = () => {
   const location = useLocation();
@@ -35,6 +36,11 @@ const Jobs = () => {
     }));
   }
   
+  const fetchBookmark = async() => {
+    // console.log("hello world");
+    await bookmarkService.fetchBookmark();
+  }
+
   return (
     <>
       <Navbar />
@@ -85,12 +91,12 @@ const Jobs = () => {
         <button className="bg-[#8F00FF] hover:scale-105 hover:bg-[#8F00FF] text-white font-bold py-2 px-4 rounded my-5" onClick={handleFilter}>Filter</button>
       </div>
 
-      
-
       <div className="space-y-4 flex flex-col justify-center items-center">
       {data.map((data, index) => 
         <div key={index} className="flex flex-col p-4 bg-[#8F00FF] w-1/2 items-center">
-          <img className="ml-auto md:ml-50 lg:ml-50" src={bookmark} />
+          <button className="ml-auto md:ml-50 lg:ml-50" onClick={fetchBookmark} >
+            <img src={bookmark} />
+          </button>
           <h1 className="text-white">Position: {data.title}</h1>
           <h1 className="text-white">Company: {data.company.display_name}</h1> 
           <h1 className="text-white">Occupation: {data.category.label}</h1> 
