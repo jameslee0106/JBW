@@ -6,7 +6,7 @@ export const Navbar = () => {
   return (
     <div className=" text-white flex justify-between items-center h-24 max-w-[1240px] mx-auto px-4">
       <h1 className="w-full text-3xl font-bold text-[#8F00FF]">
-        <Link to="/">Job Board</Link>
+        <Link to="/">USA Job Search</Link>
       </h1>
       <ul className="hidden md:flex">
         <CustomLink to="/">
