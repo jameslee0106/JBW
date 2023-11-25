@@ -32,6 +32,7 @@ function Register() {
       })
       .catch(error => {
         console.error('Error:', error);
+        alert('Unable to Create Account');
       });
   };
 
